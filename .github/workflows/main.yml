@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import seaborn as sb
 import statsmodels.api as sm
 
-df= pd.read_csv()
+df= pd.read_csv(ElectricCarData_Clean.csv)
 df.head()
 
 df.info()
