@@ -1,4 +1,11 @@
 # 기후변화에 대응하여 전기차(EV) 관련 데이터를 분석하고 가격과 충전속도간 상관관계를 회귀분석함
+# EV Dataset EDA and Regression
+# https://www.kaggle.com/code/agarwalvishal00/ev-dataset-eda-and-regression/notebook
+# Task: 전세계 103종 전기차(EV)의 특성을 분석하고, 다양한 특성 중 가격에 영향을 주는 요인을 추출하여 회귀분석함
+# Features(x): 최고속도와 경제속도, Target(y): 전기차의 가격
+
+
+
 import numpy as np 
 import pandas as pd
 import matplotlib.pyplot as plt
