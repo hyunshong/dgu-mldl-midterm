@@ -5,3 +5,152 @@ import seaborn as sb
 import statsmodels.api as sm
 
 df= pd.read_csv()
+df.head()
+
+df.info()
+
+df.isnull().sum()
+
+# Dropping null values
+df.dropna(inplace = True)
+
+# Dropping Columns that are not useful
+
+df.drop(columns = ['DOL Vehicle ID', '2020 Census Tract'], inplace = True)
+
+# Creating column that stores no. of vehicles with respect to County
+
+ev_count_by_county = df.groupby('County').size()
+df['EV_Count_County'] = df['County'].map(ev_count_by_county)
+
+# Creating column that stores no. of vehicles with respect to City
+
+ev_count_by_city = df.groupby('City').size()
+df['EV_Count_City'] = df['City'].map(ev_count_by_city)
+
+# Creating column that stores no. of vehicles with respect to Postal Code
+
+ev_count_by_postal_code = df.groupby('Postal Code').size()
+df['EV_Count_Postal_Code'] = df['Postal Code'].map(ev_count_by_postal_code)
+
+plt.figure(figsize = (11, 5))
+
+sns.countplot(data = df, x = 'Model Year', palette = 'viridis')
+
+plt.title('Distribution of Cars in Various Years')
+plt.xticks(rotation=45)
+plt.show()
+
+plt.figure(figsize = (15, 10))
+
+sns.countplot(data = df, y = 'Make', palette = 'viridis')
+
+plt.title('Distribution of Cars by Company', fontsize = 16)
+plt.xlabel('Count', fontsize = 14)
+plt.ylabel('Company', fontsize = 14)
+
+plt.xticks(fontsize = 12)
+plt.yticks(fontsize = 12)
+
+sns.despine()
+
+plt.tight_layout()
+plt.show()
+
+plt.figure(figsize=(6, 6))
+
+plt.pie(df['Model'].value_counts()[:10], labels = df['Model'].value_counts()[:10].index, autopct = '%1.1f%%',
+        colors = plt.cm.Set2.colors)
+
+plt.title('Top 15 Electric Vehicle Models')
+plt.tight_layout()
+plt.show()
+
+
+plt.figure(figsize=(6, 6))
+
+plt.pie(df['Make'].value_counts()[:10], labels = df['Make'].value_counts()[:10].index, autopct = '%1.1f%%', colors = plt.cm.Set2.colors)
+
+plt.title('Top 15 Electric Vehicle Models')
+plt.tight_layout()
+plt.show()
+
+
+plt.figure(figsize=(8, 5))
+
+sns.barplot(x = df['Electric Vehicle Type'].value_counts().index, y = df['Electric Vehicle Type'].value_counts(), palette = 'viridis')
+
+plt.xlabel('Electric Vehicle Type', fontsize = 12)
+plt.ylabel('Count', fontsize = 12)
+plt.title('Distribution of Electric Vehicle Types', fontsize = 12)
+
+for index, value in enumerate(df['Electric Vehicle Type'].value_counts()):
+    plt.text(index, value, str(value), ha = 'center', va = 'bottom', fontweight = 'bold', fontsize = 10, color = 'black')
+
+plt.tight_layout()
+plt.show()
+
+plt.figure(figsize=(13, 7))
+
+sns.barplot(x = df['Clean Alternative Fuel Vehicle (CAFV) Eligibility'].value_counts().index, y = df['Clean Alternative Fuel Vehicle (CAFV) Eligibility'].value_counts(), palette = 'viridis')
+
+plt.xlabel('CAFV Eligibility', fontsize = 12)
+plt.ylabel('Count', fontsize = 12)
+plt.title('Distribution of CAFV Eligibility', fontsize = 14)
+
+for index, value in enumerate(df['Clean Alternative Fuel Vehicle (CAFV) Eligibility'].value_counts()):
+    plt.text(index, value, str(value), ha = 'center', va = 'bottom', fontweight = 'bold', fontsize = 10, color = 'black')
+
+plt.tight_layout()
+plt.show()
+
+plt.figure(figsize=(15, 12))
+
+sns.barplot(y = ev_count_by_county.index, x = ev_count_by_county.values, palette = 'viridis')
+
+plt.xlabel('Number of EV Cars', fontsize = 14)
+plt.ylabel('County', fontsize = 14)
+plt.title('Number of Electric Vehicles by County', fontsize = 16)
+
+plt.xticks(fontsize = 14)
+plt.yticks(fontsize = 14)
+
+plt.tight_layout()
+plt.show()
+
+crosstab_df = pd.crosstab(df['Make'], df['Electric Vehicle Type'])
+print(crosstab_df)
+
+plt.figure(figsize = (10, 8))
+
+grouped_barplot = df.groupby(['Make', 'Electric Vehicle Type']).size().unstack()
+grouped_barplot.plot(kind = 'bar', stacked = False)
+
+plt.title('Electric Vehicle Type Distribution for Each Company')
+plt.xlabel('Company')
+plt.ylabel('Count')
+
+plt.legend()
+
+plt.tight_layout()
+plt.show()
+
+
+corr = df.corr(numeric_only = True)
+
+plt.figure(figsize = (10, 7))
+
+sns.heatmap(corr, annot = True, cmap = 'rocket_r', fmt = '.2f', linewidths = 0.5)
+
+plt.title('Correlation Map')
+plt.xticks(rotation = 45)
+
+plt.tight_layout()
+plt.show()
+
+df.head()
+
+
+
+
+
